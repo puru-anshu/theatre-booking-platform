@@ -1,0 +1,106 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: movie_db
+    ports:
+      - "5432:5432"
+
+  booking-service:
+    build: ./booking-service
+    container_name: booking-service
+    ports:
+      - "8081:8080"
+    depends_on:
+      - postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/movie_db
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=admin
+
+  show-service:
+    build: ./show-service
+    container_name: show-service
+    ports:
+      - "8082:8080"
+    depends_on:
+      - postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/movie_db
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=admin
+
+  movie-service:
+    build: ./movie-service
+    container_name: movie-service
+    ports:
+      - "8083:8080"
+    depends_on:
+      - postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/movie_db
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=admin
+
+  user-service:
+    build: ./user-service
+    container_name: user-service
+    ports:
+      - "8084:8080"
+    depends_on:
+      - postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/movie_db
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=admin
+
+  theatre-service:
+    build: ./theatre-service
+    container_name: theatre-service
+    ports:
+      - "8085:8080"
+    depends_on:
+      - postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/movie_db
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=admin
+
+  discount-service:
+    build: ./discount-service
+    container_name: discount-service
+    ports:
+      - "8086:8080"
+
+  payment-service:
+    build: ./payment-service
+    container_name: payment-service
+    ports:
+      - "8087:8080"
+
+  auth-service:
+    build: ./auth-service
+    container_name: auth-service
+    ports:
+      - "8088:8088"
+
+
+  gateway-service:
+    build: ./gateway-service
+    container_name: gateway-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      - booking-service
+      - show-service
+      - movie-service
+      - user-service
+      - theatre-service
+      - discount-service
+      - payment-service
+      - auth-service

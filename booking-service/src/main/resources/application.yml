@@ -1,0 +1,30 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: booking-service
+
+  datasource:
+    url: jdbc:postgresql://postgres:5432/movie_db
+    username: admin
+    password: admin
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+resilience4j:
+  retry:
+    instances:
+      discountRetry:
+        max-attempts: 3
+        wait-duration: 2s
+        retry-exceptions:
+          - java.io.IOException
+          - org.springframework.web.reactive.function.client.WebClientRequestException
+
+      paymentRetry:
+        max-attempts: 2
+        wait-duration: 1s
