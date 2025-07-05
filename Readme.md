@@ -187,12 +187,16 @@ To complete the architecture, the following services can be added:
 
 ---
 
-## Integration Suggestions
+
+---
+
+## Alternative Approach ( Event Driven Architecture )
 
 - `booking-service` can publish booking events to Kafka → consumed by `notification-service` and `metric-analytics-service`
 - `gateway-service` can log request traces to `metric-analytics-service`
 - `authorization-service` (if implemented) can enhance gateway token validation
 
-
+[Event  Driven ](event-driven-architecture.md)
 
 ---
+
